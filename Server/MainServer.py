@@ -6,4 +6,5 @@ def testPassword():
 	return 'user:thomas, pass:password123'
 
 if __name__ == '__main__':
-	app.run()
+	app.debug = False
+	app.run('0.0.0.0')
