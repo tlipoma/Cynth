@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 
 	"name": "Cynth",
-	"discription": "Extension for grabbing encrypted passwords",
+	"description": "Extension for grabbing encrypted passwords",
 	"version": "0.1",
 
 	"browser_action": {
