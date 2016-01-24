@@ -89,15 +89,20 @@ function getImageUrl(searchTerm, callback, errorCallback) {
 }
 
 function getPasswordFromServer(currentUrl, callback, errorCallback){
-  var serverIP = '104.236.10.146';
+  var serverIP = '104.236.10.146:5000/';
   var url = 'http://' + serverIP;
-  url = 'https://www.google.com/?gws_rd=ssl';
   var req = new XMLHttpRequest();
   req.open('GET', url);
+  req.responseType = 'json';
   req.onload = function(){
-    //var response = req.response;
-    //callback(response);
-    callback('itWorked');
+    // Check for errors
+    if (!response || !response.responseData || !response.responseData.results ||
+        response.responseData.results.length === 0) {
+      errorCallback('No response from Server!!!');
+      return;
+    }
+    var response = req.response;
+    callback(response);
   };
   req.onerror = function() {
     var status = req.statusText;
