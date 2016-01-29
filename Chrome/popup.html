@@ -6,7 +6,7 @@
                 min-width: 420px; 
                 overflow-x: hidden; 
                 font-family: Arial, sans-serif; 
-                font-size: 12px; 
+                font-size: 12px;
             }
             input, textarea { 
                 width: 420px; 
@@ -16,17 +16,26 @@
             }
         </style>
         <script src="popup.js"></script>
+        <script src="crypto/components/core.js"></script>
+        <script src="crypto/components/sha256.js"></script>
+        <script src="crypto.components/aes.js"></script>
     </head>
     <body>
         <form id="Cynth">
             <p><label for="username">Username</label><br />
             <input type="text" id="username" name="username" size="50" value="" /></p>
-            <p><label for="password">Password</label><br />
-            <input type="text" id="password" name="password" size="50" value="" /></p>
             <p><label for="url">Url</label><br />
             <input type="text" id="url" name="url" size="50" value="" /></p>
+            <p><label for="master_pass">Master Password</label><br />
+            <input type="password" id="master_pass" name="master_pass" size="50" value="" /></p>
+            </p>
+            <p><label for="Cynth Password">Cynth Password</label><br />
+            <input type="password" id="cynth_password" name="cynth_password" size="50" value="" />
             <p>
-                <input id="save" type="submit" value="GetPass" />
+            <p><label for="password">Password</label><br />
+            <input type="text" id="password" name="password" size="50" value="" />
+            <p>
+                <input id="send" type="button" value="GetPass"/>
                 <span id="status-display"></span>
             </p>
         </form>
