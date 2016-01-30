@@ -15,6 +15,18 @@ def storePassword():
 	file.close()
 	return "completed"
 
+@app.route('/getPassword')
+def getPassword():
+	desiredFileName = "store/"+request.json['file']+".cynth"
+	# Save file to disk
+	file = open(desiredFileName, "r")
+	eData = file.readline()
+	file.close()
+	data = {}
+	data['file'] = desiredFileName
+	data['encryptedData'] = eData
+	return json.dumps(data)
+
 @app.route('/')
 def testPassword():
 	answer = {}

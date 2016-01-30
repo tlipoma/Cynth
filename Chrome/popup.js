@@ -33,21 +33,23 @@ function renderCynthPass(cynthPass){
 }
 
 
-function getPasswordFromServer(currentUrl, callback, errorCallback){
+function getDataFromServer(file, callback, errorCallback){
   var serverIP = '104.236.10.146:5000/';
-  var url = 'http://' + serverIP;
+  var url = 'http://' + serverIP + 'getPassword';
   var req = new XMLHttpRequest();
   req.open('GET', url);
+  req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   req.responseType = 'json';
   req.onload = function(){
     var response = req.response;
-    callback("user:"+response.username + "  password:"+response.username);
+    callback(response.encryptedData);
   };
   req.onerror = function() {
     var status = req.statusText;
     errorCallback('Network error:' + status);
   };
-  req.send();
+  var jsonData = {"file":file.toString()}
+  req.send(JSON.stringify(jsonData));
 }
 
 function saveDataToServer(fileName, encryptedData){
@@ -56,7 +58,7 @@ function saveDataToServer(fileName, encryptedData){
   var req = new XMLHttpRequest();
   req.open("POST", url);
   req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  var jsonData = {"file":fileName, "data":encryptedData.toString()}
+  var jsonData = {"file":fileName.toString(), "data":encryptedData.toString()}
   req.send(JSON.stringify(jsonData));
 }
 
@@ -80,7 +82,7 @@ function decryptPassword(message, MasterPass){
   return CryptoJS.AES.decrypt(message, MasterPass);
 }
 
-function submitOnClick(){
+function savePasswordOnClick(){
   var username = document.getElementById('username').value;
   var url = document.getElementById('url').value;
   var masterPass = document.getElementById('master_pass').value;
@@ -92,6 +94,22 @@ function submitOnClick(){
   saveDataToServer(fileName, encyptedData);
 }
 
+function getPasswordOnClick(){
+  var username = document.getElementById('username').value;
+  var url = document.getElementById('url').value;
+  var masterPass = document.getElementById('master_pass').value;
+  var cynthPass = document.getElementById('cynth_password').value;
+  var password = document.getElementById('password').value;
+
+  var fileName = hashFileName(username, url, cynthPass);
+  getDataFromServer(fileName, function(eData){
+    renderPassword(decryptPassword(eData, masterPass));
+  },function(error){
+    renderPassword(error);
+  });
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Preset Fields to make my life easier... for now
   // But seriously, get rid of this code asap
@@ -100,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
   getIdFromUrl(function(url){
     renderURL(url);
   });
-  document.getElementById('send').addEventListener('click', submitOnClick);
+  document.getElementById('sendPassword').addEventListener('click', savePasswordOnClick);
+  document.getElementById('getPassword').addEventListener('click', getPasswordOnClick);
   //var hash = CryptoJS.SHA256("Message");
   //renderUsername(hash);
   //getCurrentTabUrl(function(url){
