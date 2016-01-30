@@ -77,6 +77,11 @@ function encryptData(masterPass, username, password){
 
 }
 
+function decryptJsonPackage(message, MasterPass){
+  var jsonString = CryptoJS.AES.decrypt(message, MasterPass).toString(CryptoJS.enc.Utf8);
+  return JSON.parse(jsonString);
+}
+
 function decryptPassword(message, MasterPass){
   return CryptoJS.AES.decrypt(message, MasterPass);
 }
@@ -102,10 +107,24 @@ function getPasswordOnClick(){
 
   var fileName = hashFileName(username, url, cynthPass);
   getDataFromServer(fileName, function(eData){
-    renderPassword(eData);
+    var jsonData = decryptJsonPackage(eData, masterPass);
+    renderPassword(jsonData.password);
+    renterUsername(jsonData.username);
   },function(error){
     renderPassword(error);
   });
+
+}
+
+function testFunction(){
+  var username = document.getElementById('username').value;
+  var url = document.getElementById('url').value;
+
+  var e = encryptPassword(username, "ABCD");
+  var temp = e.toString();
+  var d = decryptPassword(temp, "ABCD");
+
+  renderPassword(d.toString(CryptoJS.enc.Utf8));
 
 }
 
@@ -117,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
   getIdFromUrl(function(url){
     renderURL(url);
   });
+  //document.getElementById('sendPassword').addEventListener('click', testFunction);
   document.getElementById('sendPassword').addEventListener('click', savePasswordOnClick);
   document.getElementById('getPassword').addEventListener('click', getPasswordOnClick);
   //var hash = CryptoJS.SHA256("Message");

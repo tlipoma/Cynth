@@ -18,7 +18,6 @@ def storePassword():
 @app.route('/getPassword/<filename>')
 def getPassword(filename):
 	desiredFileName = "store/"+filename+".cynth"
-	print desiredFileName
 	# Save file to disk
 	file = open(desiredFileName, "r")
 	eData = file.readline()
