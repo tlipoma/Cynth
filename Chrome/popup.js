@@ -35,7 +35,7 @@ function renderCynthPass(cynthPass){
 
 function getDataFromServer(file, callback, errorCallback){
   var serverIP = '104.236.10.146:5000/';
-  var url = 'http://' + serverIP + 'getPassword';
+  var url = 'http://' + serverIP + 'getPassword/' + file.toString();
   var req = new XMLHttpRequest();
   req.open('GET', url);
   req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -48,8 +48,7 @@ function getDataFromServer(file, callback, errorCallback){
     var status = req.statusText;
     errorCallback('Network error:' + status);
   };
-  var jsonData = {"file":file.toString()}
-  req.send(JSON.stringify(jsonData));
+  req.send();
 }
 
 function saveDataToServer(fileName, encryptedData){
@@ -103,7 +102,7 @@ function getPasswordOnClick(){
 
   var fileName = hashFileName(username, url, cynthPass);
   getDataFromServer(fileName, function(eData){
-    renderPassword(decryptPassword(eData, masterPass));
+    renderPassword(eData);
   },function(error){
     renderPassword(error);
   });

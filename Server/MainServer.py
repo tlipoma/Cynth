@@ -15,9 +15,10 @@ def storePassword():
 	file.close()
 	return "completed"
 
-@app.route('/getPassword')
-def getPassword():
-	desiredFileName = "store/"+request.json['file']+".cynth"
+@app.route('/getPassword/<filename>')
+def getPassword(filename):
+	desiredFileName = "store/"+filename+".cynth"
+	print desiredFileName
 	# Save file to disk
 	file = open(desiredFileName, "r")
 	eData = file.readline()
