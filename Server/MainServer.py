@@ -5,8 +5,9 @@ app = Flask(__name__)
 # TODO: add user sessions and login?
 # TODO: add twofactor...
 
-@app.route('/store/', methods=['POST'])
+@app.route('/store', methods=['POST', 'GET'])
 def storePassword():
+	print request.form
 	desiredFileName = request.form['file']
 	encryptedData = request.form['data']
 	print encryptedData

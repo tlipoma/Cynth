@@ -50,6 +50,16 @@ function getPasswordFromServer(currentUrl, callback, errorCallback){
   req.send();
 }
 
+function savePasswordToServer(fileName, password, username){
+  var serverIP = '104.236.10.146:5000/';
+  var url = 'http://' + serverIP + 'store';
+  var req = new XMLHttpRequest();
+  req.open("POST", url);
+  req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  var jsonData = {"file":"file1", "data":"im a username and password"}
+  req.send(JSON.stringify(jsonData));
+}
+
 function hashFileName(user, url, pass){
   var tempHash = CryptoJS.SHA256(user+pass);
   return CryptoJS.SHA256(tempHash+url);
@@ -70,8 +80,8 @@ function submitOnClick(){
   var cynthPass = document.getElementById('cynth_password').value;
 
   var fileName = hashFileName(username, url, cynthPass);
-  var 
   renderPassword(hashFileName(username, url, cynthPass));
+  savePasswordToServer(1,2,3);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
