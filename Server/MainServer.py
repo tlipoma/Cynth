@@ -7,11 +7,10 @@ app = Flask(__name__)
 
 @app.route('/store', methods=['POST', 'GET'])
 def storePassword():
-	print request.form
-	desiredFileName = request.form['file']
-	encryptedData = request.form['data']
+	desiredFileName = request.json['file']
+	encryptedData = request.json['data']
 	print encryptedData
-	return
+	return "completed"
 
 @app.route('/')
 def testPassword():

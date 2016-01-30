@@ -50,13 +50,13 @@ function getPasswordFromServer(currentUrl, callback, errorCallback){
   req.send();
 }
 
-function savePasswordToServer(fileName, password, username){
+function saveDataToServer(fileName, encryptedData){
   var serverIP = '104.236.10.146:5000/';
   var url = 'http://' + serverIP + 'store';
   var req = new XMLHttpRequest();
   req.open("POST", url);
   req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  var jsonData = {"file":"file1", "data":"im a username and password"}
+  var jsonData = {"file":fileName, "data":encryptedData.toString()}
   req.send(JSON.stringify(jsonData));
 }
 
@@ -69,6 +69,13 @@ function encryptPassword(pass, MasterPass){
   return CryptoJS.AES.encrypt(pass, MasterPass);
 }
 
+function encryptData(masterPass, username, password){
+  var jsonDataString = JSON.stringify({"username":username, "password":password});
+  var encryptedMessage = CryptoJS.AES.encrypt(jsonDataString, masterPass);
+  return encryptedMessage;
+
+}
+
 function decryptPassword(message, MasterPass){
   return CryptoJS.AES.decrypt(message, MasterPass);
 }
@@ -76,12 +83,13 @@ function decryptPassword(message, MasterPass){
 function submitOnClick(){
   var username = document.getElementById('username').value;
   var url = document.getElementById('url').value;
-  var masterPass = document.getElementById('master_pass');
+  var masterPass = document.getElementById('master_pass').value;
   var cynthPass = document.getElementById('cynth_password').value;
+  var password = document.getElementById('password').value;
 
   var fileName = hashFileName(username, url, cynthPass);
-  renderPassword(hashFileName(username, url, cynthPass));
-  savePasswordToServer(1,2,3);
+  var encyptedData = encryptData(masterPass, username, password);
+  saveDataToServer(fileName, encyptedData);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
