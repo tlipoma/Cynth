@@ -1,7 +1,16 @@
-from flask import Flask
+from flask import Flask, request
 import json
-
 app = Flask(__name__)
+
+# TODO: add user sessions and login?
+# TODO: add twofactor...
+
+@app.route('/store/', methods=['POST'])
+def storePassword():
+	desiredFileName = request.form['file']
+	encryptedData = request.form['data']
+	print encryptedData
+	return
 
 @app.route('/')
 def testPassword():
