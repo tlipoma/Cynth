@@ -9,7 +9,10 @@ app = Flask(__name__)
 def storePassword():
 	desiredFileName = request.json['file']
 	encryptedData = request.json['data']
-	print encryptedData
+	# Save file to disk
+	file = open("store/"+desiredFileName+".cynth", "w")
+	file.write(encryptedData)
+	file.close()
 	return "completed"
 
 @app.route('/')
