@@ -102,20 +102,28 @@ function savePasswordOnClick(){
   saveDataToServer(fileName, encyptedData);
 }
 
-function getTrueRandomNumber(time){
-  // TODO: move this over to nist-beacon number
-  return Math.floor((Math.random() * 500000) +1);
+function hex2String(hexx) {
+    var hex = hexx.toString();//force conversion
+    var str = '';
+    for (var i = 0; i < hex.length; i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
 }
 
-function buildPassword(simple, kosher, keylen){
-  var tempHash = CryptoJS.SHA256(simple);
-  var finalHash = CryptoJS.SHA256(tempHash+kosher);
+function getTrueRandomNumber(time){
+  // TODO: move this over to nist-beacon number
+  return Math.floor((Math.random() * 50000000) +1);
+}
 
+function buildPassword(simple, kosher, keyLen){
+  var finalHash = CryptoJS.PBKDF2(""+kosher, simple, {keySize: 512/32, iterations: 500});
+  var utfHash = hex2a(finalHash);
   var builtPass = "";
   for (i=0; i<keyLen; i++){
-    
-    builtPass += 
+    charIndex = Math.floor((Math.random() * utfHash.length) + 1);  
+    builtPass += utfHash[charIndex];
   }
+  return builtPass;
 
 }
 
@@ -124,12 +132,12 @@ function testFunction(){
   var epocTime = Math.floor(Date.now()/1000);
 
   var kosherSalt = getTrueRandomNumber(epocTime - timeOffset);
-  var simpleSalt = Math.floor((math.random() * 1000000) + 1);
+  var simpleSalt = CryptoJS.lib.WordArray.random(128/8);
   var keyLen = 8 + Math.floor((Math.random() * 6) + 1);
 
-  var generatedPass = buildPassowrd(simpleSalt, kosherSalt, keyLen);
+  var generatedPass = buildPassword(simpleSalt, kosherSalt, keyLen);
 
-  renderUsername(timeOffset);
+  renderUsername(generatedPass);
 
 }
 
