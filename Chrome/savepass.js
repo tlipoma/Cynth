@@ -110,7 +110,7 @@ function getTrueRandomNumber(time){
 function buildPassword(simple, kosher, keyLen){
   var finalHash = CryptoJS.PBKDF2(""+kosher, simple, {keySize: 512/32, iterations: 500});
   var utfHash = finalHash.toString();
-  var charDictionary = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()?+=";
+  var charDictionary = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#*()+={}/?'-_";
   var builtPass = "";
   for (i=0; i<keyLen; i++){
     // Build large random number based off of random number
