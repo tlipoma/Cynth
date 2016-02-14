@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body { 
+                min-width: 420px; 
+                overflow-x: hidden; 
+                font-family: Arial, sans-serif; 
+                font-size: 12px;
+            }
+            input, textarea { 
+                width: 420px; 
+            }
+            input#save { 
+                font-weight: bold; width: auto; 
+            }
+        </style>
+        <script src="pageScripts/getpass.js"></script>
+        <script src="crypto/components/core-min.js"></script>
+        <script src="crypto/rollups/sha256.js"></script>
+        <script src="crypto/rollups/aes.js"></script>
+    </head>
+    <body>
+        <a href="savepass.html">Goto Savepass</a>
+        <a href="getPassAdvanced.html">Advanced</a>
+        <form id="getPassForm" onsubmit="return false">
+            <p><label for="url">Url</label><br />
+            <input type="text" id="url" name="url" size="50" value="" /></p>
+            <p><label for="master_pass">Master Password</label><br />
+            <input type="password" id="master_pass" name="master_pass" autofocus="autofocus" size="50" value="" /></p>
+            </p>
+            <p><label for="password">Password</label><br />
+            <input type="text" id="password" name="password" size="50" value="" />
+            <p>
+                <input id="getPassword" type="button" value="GetPass"/>
+                <span id="status-display"></span>
+            </p>
+        </form>
+    </body>
+</html>
+

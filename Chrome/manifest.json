@@ -1,18 +1,23 @@
 {
-	"manifest_version": 2,
-
-	"name": "Cynth",
-	"description": "Extension for grabbing encrypted passwords",
-	"version": "0.1",
-
-	"browser_action": {
-		"default_icon": "icon.png",
-		"default_popup": "getpass.html"
-	},
-	"permissions": [
-		"activeTab",
-		"https://ajax.googleapis.com/",
-		"http://104.236.10.146/*",
-		"https://beacon.nist.gov/rest/record/*"
-	]
+  "name": "Cynth",
+  "version": "3.1",
+  "description": "Extension for Cynth password manager",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "page_action" :
+  {
+    "default_icon" : "images/icon.png",
+    "default_title" : "Cynth",
+    "default_popup" : "pages/main.html"
+  },
+  "permissions" : [
+    "declarativeContent",
+    "tabs",
+    "activeTab",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "manifest_version": 2
 }

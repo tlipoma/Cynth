@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body { 
+                min-width: 420px; 
+                overflow-x: hidden; 
+                font-family: Arial, sans-serif; 
+                font-size: 12px;
+            }
+            input, textarea { 
+                width: 420px; 
+            }
+            input#save { 
+                font-weight: bold; width: auto; 
+            }
+        </style>
+        <script src="pageScripts/login.js"></script>
+    </head>
+    <body>
+        <form id="loginForm">
+            <p><label for="title">Cynth Username</label><br />
+            <input type="text" id="username" name="username" autofocus="autofocus" size="50" value="" /></p>
+            <p><label for="Cynth Password">Cynth Password</label><br />
+            <input type="password" id="password" name="cynth_password" size="50" value="" />
+            <p>
+            <input type="submit" value="Login">
+                <span id="status-display"></span>
+            </p>
+        </form>
+    </body>
+</html>
+
