@@ -1,9 +1,27 @@
 from flask import Flask, request
 import json
+import os
+from pymongo import MongoClient
+import logging
 app = Flask(__name__)
 
 # TODO: add user sessions and login?
 # TODO: add twofactor...
+
+# Setup logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Open mongodb connection
+try:
+	MLAB_URI = os.environ['CYNTH_MLAB_URI']
+except:
+	logger.error('Could not find mongodb uri')
+try:
+	client = MongoClient(MLAB_URI)
+except:
+	logger.error('Could not open mlab db')
+
 
 @app.route('/store', methods=['POST', 'GET'])
 def storePassword():
