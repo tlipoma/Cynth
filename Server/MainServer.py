@@ -19,9 +19,12 @@ except:
 	logger.error('Could not find mongodb uri')
 try:
 	client = MongoClient(MLAB_URI)
+	password_db = client.passwords
 except:
 	logger.error('Could not open mlab db')
 
+def get_from_mlab(filename):
+	return password_db.find_one({'uri':filename})
 
 @app.route('/store', methods=['POST', 'GET'])
 def storePassword():
@@ -35,14 +38,15 @@ def storePassword():
 
 @app.route('/getPassword/<filename>')
 def getPassword(filename):
-	desiredFileName = "store/"+filename+".cynth"
-	# Save file to disk
-	file = open(desiredFileName, "r")
-	eData = file.readline()
-	file.close()
+	desiredFileName = filename
+	# get data from mongo
+	password_data = get_from_mlab(filename)
 	data = {}
 	data['file'] = desiredFileName
-	data['encryptedData'] = eData
+	if password_data:
+		data['encryptedData'] = password_data['password']
+	else:
+		data['encryptedData'] = 'no password'
 	return json.dumps(data)
 
 @app.route('/')
