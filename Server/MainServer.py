@@ -16,16 +16,22 @@ logger = logging.getLogger(__name__)
 logger.info('Initilizing DB connection')
 try:
 	MLAB_URI = os.environ['CYNTH_MLAB_URI']
+	logger.info('Retrieved mlab URI')
 except:
 	logger.error('Could not find mongodb uri')
 try:
 	client = MongoClient(MLAB_URI)
-	password_db = client.passwords
+	password_db = client.get_default_database()['passwords']
+	logger.info('Opened password db')
 except:
 	logger.error('Could not open mlab db')
 
 def get_from_mlab(filename):
-	return password_db.find_one({'uri':filename})
+	try:
+		return password_db.find_one({'uri':filename})
+	except Exception as e:
+		logger.exception('error getting from mlab')
+		return None
 
 def save_to_mlab(filename, data):
 	try:
@@ -33,22 +39,27 @@ def save_to_mlab(filename, data):
 			{'uri':filename, 'data':data},
 			upsert=True)
 		return True
-	except:
-		logger.info('Error saving data for ' + filename)
+	except Exception as e:
+		logger.exception('Error saving data for ' + filename)
 		return False
 
 @app.route('/store', methods=['POST', 'GET'])
 def storePassword():
-	desiredFileName = request.json['file']
-	encryptedData = request.json['data']
-	# Save file to disk
-	if save_to_mlab(desiredFileName, encryptedData):
-		return "completed"
-	return "error saving"
+	try:
+		logger.info('Storing passwords for ' + request.remote_addr)
+		desiredFileName = request.json['file']
+		encryptedData = request.json['data']
+		# Save file to disk
+		if save_to_mlab(desiredFileName, encryptedData):
+			return "completed"
+		logger.error('Could not store to database')
+		return "error saving to db"
+	except:
+		return "error parsing request"
 
 @app.route('/getPassword/<filename>')
 def getPassword(filename):
-	logger.info('Getting password data for ' + filename)
+	logger.info('Getting password data for ' + request.remote_addr)
 	desiredFileName = filename
 	# get data from mongo
 	password_data = get_from_mlab(filename)
