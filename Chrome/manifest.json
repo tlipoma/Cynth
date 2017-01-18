@@ -1,6 +1,6 @@
 {
   "name": "Cynth",
-  "version": "3.1",
+  "version": "0.0.1.0",
   "description": "Extension for Cynth password manager",
   "background": {
     "scripts": ["background.js"],
