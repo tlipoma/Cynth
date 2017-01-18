@@ -9,8 +9,10 @@ app = Flask(__name__)
 # TODO: add twofactor...
 
 # Setup logger
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename='cynth_log.txt', level=logging.INFO)
 logger = logging.getLogger(__name__)
+wlog = logging.getLogger('werkzeug')
+wlog.setLevel(logging.ERROR)
 
 # Open mongodb connection
 logger.info('Initilizing DB connection')

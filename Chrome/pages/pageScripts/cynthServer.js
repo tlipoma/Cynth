@@ -1,4 +1,4 @@
-const SERVER_ADDRESS = 'http://127.0.0.1:5000/'
+const SERVER_ADDRESS = 'http://104.236.10.146:5000/'
 
 function getPasswordFromServer(file, callback, errorCallback) {
 	let url = SERVER_ADDRESS + 'getPassword/' + file.toString();
