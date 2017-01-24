@@ -36,10 +36,11 @@ function renderCynthPass(cynthPass){
 }
 
 function savePasswordOnClick(){
-  const username = document.getElementById('username').value;
+  // Get login credentials
+  const username = chrome.extension.getBackgroundPage().cynthUsername;
+  const cynthPass = chrome.extension.getBackgroundPage().cynthPassword;
   const url = document.getElementById('url').value;
   const masterPass = document.getElementById('master_pass').value;
-  const cynthPass = document.getElementById('cynth_password').value;
   const password = document.getElementById('password').value;
   const urlusername = document.getElementById('urlusername').value;
 
