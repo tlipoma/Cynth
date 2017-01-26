@@ -27,7 +27,8 @@ function renderMasterPass(masterText){
 }
 
 function copyToClipboard(text) {
-  window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+  document.execCommand('copy');
+
 }
 
 function getPasswordOnClick(){
@@ -57,3 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
   //document.getElementById('getPassForm').addEventListener('submit', getPasswordOnClick);
   document.getElementById('getPassword').addEventListener('click', getPasswordOnClick);
 });
+
+document.addEventListener('copy', function(e) {
+	const passToCopy = document.getElementById('password').value;
+	e.preventDefault();
+	if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', passToCopy);
+    } else if (window.clipboardData) {
+        window.clipboardData.setData('Text', passToCopy);
+    }
+})

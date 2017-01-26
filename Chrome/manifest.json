@@ -1,6 +1,6 @@
 {
   "name": "Cynth",
-  "version": "0.0.1.0",
+  "version": "0.0.1.2",
   "description": "Extension for Cynth password manager",
   "icons": {"48": "images/icon128.png"},
   "background": {
