@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+*.pyc
 
 # Packages #
 ############
@@ -40,3 +41,5 @@ Thumbs.db
 # Virtual env files #
 ####################
 venv/
+
+Server/cynth_log.txt
