@@ -1,4 +1,4 @@
-const SERVER_ADDRESS = 'http://cynth.thomaslipoma.com'
+const SERVER_ADDRESS = 'http://cynth.thomaslipoma.com/'
 
 function getPasswordFromServer(file, callback, errorCallback) {
 	let url = SERVER_ADDRESS + 'getPassword/' + file.toString();
@@ -18,12 +18,11 @@ function getPasswordFromServer(file, callback, errorCallback) {
 }
 
 function saveDataToServer(uri, encryptedData) {
-	let url = SERVER_ADDRESS + 'store';
+	let url = SERVER_ADDRESS + 'store?fileloc=' + encodeURIComponent(uri) + '&data=' + encodeURIComponent(encryptedData);
+	console.log(url)
 	let req = new XMLHttpRequest();
-	req.open('POST', url);
-	req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-	let jsonData = {'file':uri.toString(), 'data':encryptedData.toString()}
-	req.send(JSON.stringify(jsonData));
+	req.open("GET", url, true);
+	req.send()
 
 	// TODO: add reporting back on success/failure of request	
 }
